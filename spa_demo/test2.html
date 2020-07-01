@@ -56,7 +56,7 @@
         props: ['todo'],
         template: '<li>{{todo.text}}</li>'
     })
-    var app = new Vue({
+    let app = new Vue({
         el: '#app',
         data: {
             groceryList: [
@@ -70,7 +70,7 @@
         }
     })
 
-    var example = new Vue({
+    let example = new Vue({
         el: '#example',
         data: {
             message: 'hello',
@@ -93,7 +93,7 @@
     example.message = 'Goodbye'
     console.log(example.reverseMessage) // => 'eybdooG'
 
-    var test = new Vue({
+    let test = new Vue({
         el: '#test',
         data: {
             counter: 0,
