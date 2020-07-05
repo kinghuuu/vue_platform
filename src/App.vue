@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <top-nav></top-nav>
+    <router-link to="/home" tag="button">首页</router-link>&nbsp;&nbsp;
+    <router-link to="/about" tag="button">内容</router-link>&nbsp;&nbsp;
+    <router-link v-bind:to="'/user/'+userId" tag="button">用户</router-link>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import TopNav from "./components/TopNav.vue";
-import Home from "./routers/Home.vue";
-import Test from "./routers/Test.vue";
-
 export default {
   name: "App",
-  components: {
-    TopNav,
-    Home,
-    Test
+  data() {
+    return {
+      userId: "zhangsan"
+    };
   }
 };
 </script>
@@ -25,4 +23,10 @@ export default {
   margin: 0;
   padding: 0;
 }
+.active {
+  color: red;
+}
+/* .router-link-active {
+  color: red;
+} */
 </style>

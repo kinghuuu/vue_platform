@@ -1,9 +1,22 @@
-import Home from './Home.vue'
-import Test from './Test.vue'
+import VueRouter from 'vue-router'
+import Vue from 'vue'
+import Home from '../components/Home.vue'
+import About from '../components/About.vue'
+import User from '../components/User.vue'
 
-const Routers = [
-    { path: '/', name: 'Home', component: Home },
-    { path: '/test', name: 'Test', component: Test },
+Vue.use(VueRouter)
+
+const routes = [
+    { path: '/', redirect: '/home' },
+    { path: '/home', component: Home },
+    { path: '/about', component: About },
+    { path: '/user/:userId', component: User },
 ]
 
-export default Routers
+const router = new VueRouter({
+    routes,
+    mode: 'history',
+    linkActiveClass: 'active'
+})
+
+export default router
