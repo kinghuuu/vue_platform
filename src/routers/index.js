@@ -1,16 +1,23 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
-import Home from '../components/Home.vue'
-import About from '../components/About.vue'
-import User from '../components/User.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
     { path: '/', redirect: '/home' },
-    { path: '/home', component: Home },
-    { path: '/about', component: About },
-    { path: '/user/:userId', component: User },
+    {
+        path: '/home',
+        component: () => import('../components/Home'),
+        meta: { title: '首页' },
+        children: [
+            // { path: '/', redirect: 'news' },
+            { path: 'news', component: () => import('../components/HomeNews') },
+            { path: 'message', component: () => import('../components/HomeMessage') },
+        ]
+    },
+    { path: '/about', meta: { title: '内容' }, component: () => import('../components/About') },
+    { path: '/user/:userId', meta: { title: '用户' }, component: () => import('../components/User') },
+    { path: '/profile', meta: { title: '档案' }, component: () => import('../components/Profile') },
 ]
 
 const router = new VueRouter({
@@ -18,5 +25,17 @@ const router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'active'
 })
+
+//前置守卫(guard)
+router.beforeEach((to, from, next) => {
+    document.title = to.matched[0].meta.title
+    next()
+})
+
+//后置钩子(hook)
+// router.afterEach((to, from) => {
+//     console.log('to:', to)
+//     console.log('from:', from)
+// })
 
 export default router
