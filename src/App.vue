@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <router-link to="/home" tag="button">首页</router-link>&nbsp;&nbsp;
-    <router-link to="/about" tag="button">内容</router-link>&nbsp;&nbsp;
-    <router-link v-bind:to="'/user/'+userId" tag="button">用户</router-link>
+    <router-link to="/home" tag="el-button">首页</router-link>&nbsp;&nbsp;
+    <router-link to="/about" tag="el-button">内容</router-link>&nbsp;&nbsp;
+    <router-link v-bind:to="'/user/'+userId" tag="el-button">用户</router-link>
     <router-view></router-view>
   </div>
 </template>
