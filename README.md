@@ -1,5 +1,5 @@
 
-<p align="left"><img src="https://github.com/kinghuuu/Images/blob/master/lamp.png" alt="lamp" width="100"/></p>
+<p align="left"><img src="https://kinghuuu.github.io/Images/lamp.png" alt="lamp" width="100"/></p>
 
 ## 笔记
 ##### Mustache 语法不能作用在 HTML attribute 上，遇到这种情况应该使用 v-bind 指令：
