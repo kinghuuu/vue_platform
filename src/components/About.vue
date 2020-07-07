@@ -1,21 +1,19 @@
 <template>
   <div>
-    <h2>我是内容</h2>
-    <h3>{{msg}}</h3>
+    <h2>{{$store.state.count}}</h2>
+    <Button @click="$store.state.count++">新增</Button>
+    <Button @click="$store.state.count--">减少</Button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "About",
-  data() {
-    return {
-      msg: "halo"
-    };
-  },
-  created() {
-    // console.log(this.msg);
-  }
+  name: "About"
+  // data() {
+  //   return {
+  //     counter: 0
+  //   };
+  // }
 };
 </script>
 
