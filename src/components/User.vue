@@ -2,7 +2,7 @@
   <div>
     <h2>我是用户界面</h2>
     <h3>{{userId}}</h3>
-    <h3>{{$store.state.count}}</h3>
+    <h3>{{$store.state.counter}}</h3>
   </div>
 </template>
 

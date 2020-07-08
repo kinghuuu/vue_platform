@@ -49,10 +49,13 @@ keep-alive 是Vue内置的一个组件,可以使被包含的组件保留状态,�
 ```
 
 ##### Vuex
-异步操作一般在actions中进行, mutations一般是进行同步操作的,方便Devtools进行跟踪.
+```
+1.异步操作一般在actions中进行, mutations一般是进行同步操作的,方便Devtools进行跟踪.
+2.state 单一状态树(只用一个store)
+3.getters 先把数据进行处理了,再放到组件中去
 
 
-
+```
 
 
 
