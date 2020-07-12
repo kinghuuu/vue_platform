@@ -7,6 +7,13 @@
 </template>
 
 <script>
+import axios from "axios";
+axios({
+  url: "http://wthrcdn.etouch.cn/weather_mini?city=南京"
+}).then(res => {
+  console.log(res);
+});
+
 export default {
   name: "User",
   data() {
