@@ -8,6 +8,8 @@ Vue.use(Vuex)
 
 const state = {
     counter: 1000,
+    num: 0,
+    msg: "hujian",
     students: [
         { name: 'xiaoA', age: 10 },
         { name: 'xiaoB', age: 15 },

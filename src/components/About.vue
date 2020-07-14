@@ -16,10 +16,19 @@
     <h2>--------vuex actions------------------------------</h2>
     <h2>{{$store.state.info}}</h2>
     <Button @click="aUpdateInfo">异步修改</Button>
+
+    <h2>--------实现个双向绑定------------------------------</h2>
+    <h2>数量:{{num}}</h2>
+    <!-- <input type="text" v-model="num" /> -->
+    <input type="text" :value="num" @input="changeValue" />
+    <h2>反转:{{reverseMsg}}</h2>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+let mapStateData = mapState(["num"]);
+let mapGettersData = mapGetters(["reverseMsg"]);
 import {
   INCREMENT,
   DECREMENT,
@@ -58,7 +67,24 @@ export default {
           console.log("加载成功!");
         }
       });
+    },
+    changeValue(e) {
+      this.$store.commit("setNum", e.target.value);
     }
+  },
+  // computed: {
+  //   num: {
+  //     get: function() {
+  //       return this.$store.state.num;
+  //     },
+  //     set: function(val) {
+  //       this.$store.commit("setNum", val);
+  //     }
+  //   }
+  // }
+  computed: {
+    ...mapStateData,
+    ...mapGettersData
   }
 };
 </script>

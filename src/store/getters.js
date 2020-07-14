@@ -15,4 +15,7 @@ export default {
         // }
         return param => { return state.students.filter(s => s.age > param) }
     },
+    reverseMsg(state) {
+        return state.msg.split('').reverse().join('')
+    }
 }

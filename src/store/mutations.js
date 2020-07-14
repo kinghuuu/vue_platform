@@ -29,6 +29,9 @@ export default {
         //     state.info.name = 'hujian'
         // }, 1000)
         state.info.name = 'hujian'
+    },
+    setNum(state, val) {
+        state.num = val
     }
 
 }
