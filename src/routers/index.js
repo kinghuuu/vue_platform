@@ -4,20 +4,20 @@ import Vue from 'vue'
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/', redirect: '/home' },
+    { path: '/', redirect: '/login' },
+    { path: '/login', meta: { title: '登陆' }, component: () => import('./Login') },
     {
         path: '/home',
-        component: () => import('../components/Home'),
-        meta: { title: '首页' },
+        component: () => import('./Home'),
+        redirect: '/welcome',
         children: [
-            // { path: '/', redirect: 'news' },
-            { path: 'news', component: () => import('../components/HomeNews') },
-            { path: 'message', component: () => import('../components/HomeMessage') },
+            { path: '/welcome', meta: { title: '首页' }, component: () => import('./Welcome') },
+            { path: '/news', meta: { title: '新闻' }, component: () => import('./News') },
+            { path: '/parent', meta: { title: '父组件' }, component: () => import('./user/Parent') },
+            { path: '/children', meta: { title: '子组件' }, component: () => import('./user/Children') },
+            { path: '/elementUI', meta: { title: 'ElementUI' }, component: () => import('./ElementUI') },
         ]
     },
-    { path: '/about', meta: { title: '内容' }, component: () => import('../components/About') },
-    { path: '/user/:userId', meta: { title: '用户' }, component: () => import('../components/User') },
-    { path: '/profile', meta: { title: '档案' }, component: () => import('../components/Profile') },
 ]
 
 const router = new VueRouter({
@@ -34,14 +34,8 @@ VueRouter.prototype.push = function push(location) {
 
 //前置守卫(guard)
 router.beforeEach((to, from, next) => {
-    document.title = to.matched[0].meta.title
+    document.title = to.meta.title
     next()
 })
-
-//后置钩子(hook)
-// router.afterEach((to, from) => {
-//     console.log('to:', to)
-//     console.log('from:', from)
-// })
 
 export default router

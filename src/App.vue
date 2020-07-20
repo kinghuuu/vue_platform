@@ -1,14 +1,5 @@
 <template>
   <div id="app">
-    <!-- <router-link to="/home" tag="button">首页</router-link>&nbsp;&nbsp;
-    <router-link to="/about" tag="button">内容</router-link>&nbsp;&nbsp;
-    <router-link v-bind:to="'/user/'+userId" tag="button">用户</router-link>&nbsp;&nbsp;
-    <router-link :to="{path:'/profile',query:{name:'hujian',age:18}}" tag="button">档案</router-link>-->
-
-    <Button type="success" @click="homeClick">首页</Button>&nbsp;&nbsp;
-    <Button type="success" @click="aboutClick">内容</Button>&nbsp;&nbsp;
-    <Button type="success" @click="userClick">用户</Button>&nbsp;&nbsp;
-    <Button type="success" @click="profileClick">档案</Button>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -17,38 +8,6 @@
 
 <script>
 export default {
-  name: "App",
-  data() {
-    return {
-      userId: "zhangsan"
-    };
-  },
-  methods: {
-    homeClick() {
-      this.$router.push("/home");
-    },
-    aboutClick() {
-      this.$router.push("/about");
-    },
-    userClick() {
-      this.$router.push("/user/" + this.userId);
-    },
-    profileClick() {
-      this.$router.push({
-        path: "/profile",
-        query: { name: "hujian", age: 18 }
-      });
-    }
-  }
+  name: "App"
 };
 </script>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-}
-/* .active {
-  font-weight: 700;
-} */
-</style>
