@@ -69,7 +69,7 @@ export default {
           return;
         } else {
           this.$message.success("登录成功!");
-          this.$router.push("/home");
+          this.$router.push("/whole");
         }
       });
     }

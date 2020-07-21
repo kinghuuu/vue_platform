@@ -7,11 +7,11 @@ const routes = [
     { path: '/', redirect: '/login' },
     { path: '/login', meta: { title: '登陆' }, component: () => import('./Login') },
     {
-        path: '/home',
-        component: () => import('./Home'),
-        redirect: '/welcome',
+        path: '/whole',
+        component: () => import('./Whole'),
+        redirect: '/home',
         children: [
-            { path: '/welcome', meta: { title: '首页' }, component: () => import('./Welcome') },
+            { path: '/home', meta: { title: '首页' }, component: () => import('./Home') },
             { path: '/news', meta: { title: '新闻' }, component: () => import('./News') },
             { path: '/parent', meta: { title: '父组件' }, component: () => import('./user/Parent') },
             { path: '/children', meta: { title: '子组件' }, component: () => import('./user/Children') },
