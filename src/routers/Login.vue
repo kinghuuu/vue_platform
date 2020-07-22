@@ -69,6 +69,7 @@ export default {
           return;
         } else {
           this.$message.success("登录成功!");
+          window.localStorage.setItem("actionPath", "/home");
           this.$router.push("/whole");
         }
       });

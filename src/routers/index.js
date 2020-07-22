@@ -16,6 +16,7 @@ const routes = [
             { path: '/parent', meta: { title: '父组件' }, component: () => import('./user/Parent') },
             { path: '/children', meta: { title: '子组件' }, component: () => import('./user/Children') },
             { path: '/elementUI', meta: { title: 'ElementUI' }, component: () => import('./ElementUI') },
+            { path: '/chatroom', meta: { title: '聊天室' }, component: () => import('./chatroom') },
         ]
     },
 ]

@@ -53,6 +53,10 @@
             <i class="el-icon-star-off"></i>
             <span slot="title">ElementUI</span>
           </el-menu-item>
+          <el-menu-item index="/chatroom" @click="saveNavState('/chatroom')">
+            <i class="el-icon-chat-round"></i>
+            <span slot="title">聊天室</span>
+          </el-menu-item>
           <!-- 菜单栏伸缩 -->
           <div class="toggle-button" @click="toggleCollapse">|||</div>
         </el-menu>
