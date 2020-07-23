@@ -42,12 +42,12 @@
                 <span>父组件</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/children" @click="saveNavState('/children')">
+            <!-- <el-menu-item index="/children" @click="saveNavState('/children')">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>子组件</span>
               </template>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-submenu>
           <el-menu-item index="/elementUI" @click="saveNavState('/elementUI')">
             <i class="el-icon-star-off"></i>

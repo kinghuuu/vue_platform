@@ -1,6 +1,6 @@
 <template>
   <div class="chat">
-    <h1 class="user">用户: {{currentUser.username}}</h1>
+    <h1 class="user">用户: {{currentUser.username}} {{new Date() | dateFormat}}</h1>
     <div class="chatlist">
       <chat-item v-for="(item,index) in chatlist" :chatitem="item" :key="index">{{item.chatcontent}}</chat-item>
     </div>
@@ -14,7 +14,7 @@ export default {
   props: ["currentUser"],
   components: {
     ChatInput,
-    ChatItem
+    ChatItem,
   },
   data() {
     return {
@@ -22,21 +22,21 @@ export default {
         {
           user: {
             username: "小红",
-            headerimg: require("../../assets/img/headerimg1.jpg")
+            headerimg: require("../../assets/img/headerimg1.jpg"),
           },
-          chatcontent: "今天吃了吗?"
-        }
-      ]
+          chatcontent: "今天吃了吗?",
+        },
+      ],
     };
   },
   methods: {
-    sendEvent: function(value) {
+    sendEvent: function (value) {
       this.chatlist.push({
         user: this.currentUser,
-        chatcontent: value
+        chatcontent: value,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
