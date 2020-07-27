@@ -16,7 +16,8 @@ const state = {
         { name: 'xiaoC', age: 20 },
         { name: 'xiaoD', age: 25 },
     ],
-    info: { name: 'James', country: 'USA' }
+    info: { name: 'James', country: 'USA' },
+    activePath: "/home" //定义全局的侧边栏被激活的链接地址,默认值是首页的路由
 }
 
 const store = new Vuex.Store({

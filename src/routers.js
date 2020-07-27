@@ -12,11 +12,11 @@ const routes = [
         redirect: '/home',
         children: [
             { path: '/home', meta: { title: '首页' }, component: () => import('./routers/Home') },
-            { path: '/news', meta: { title: '新闻' }, component: () => import('./routers/News') },
+            { path: '/vuex', meta: { title: 'Vuex' }, component: () => import('./routers/VuexTest') },
             { path: '/parent', meta: { title: '父组件' }, component: () => import('./routers/user/Parent') },
-            // { path: '/children', meta: { title: '子组件' }, component: () => import('./routers/user/Children') },
             { path: '/elementUI', meta: { title: 'ElementUI' }, component: () => import('./routers/ElementUI') },
             { path: '/chatroom', meta: { title: '聊天室' }, component: () => import('./routers/chatroom') },
+            { path: '/echarts', meta: { title: 'Echarts' }, component: () => import('./routers/Echarts') },
         ]
     },
 ]

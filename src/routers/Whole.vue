@@ -19,15 +19,15 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
-          :default-active="activePath"
+          :default-active="$store.state.activePath"
         >
           <el-menu-item index="/home" @click="saveNavState('/home')">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="/news" @click="saveNavState('/news')">
+          <el-menu-item index="/vuex" @click="saveNavState('/vuex')">
             <i class="el-icon-news"></i>
-            <span slot="title">新闻</span>
+            <span slot="title">Vuex</span>
           </el-menu-item>
           <el-submenu index="/user">
             <!-- 一级菜单模板区域 -->
@@ -47,7 +47,7 @@
                 <i class="el-icon-menu"></i>
                 <span>子组件</span>
               </template>
-            </el-menu-item> -->
+            </el-menu-item>-->
           </el-submenu>
           <el-menu-item index="/elementUI" @click="saveNavState('/elementUI')">
             <i class="el-icon-star-off"></i>
@@ -56,6 +56,10 @@
           <el-menu-item index="/chatroom" @click="saveNavState('/chatroom')">
             <i class="el-icon-chat-round"></i>
             <span slot="title">聊天室</span>
+          </el-menu-item>
+          <el-menu-item index="/echarts" @click="saveNavState('/echarts')">
+            <i class="el-icon-s-data"></i>
+            <span slot="title">Echarts</span>
           </el-menu-item>
           <!-- 菜单栏伸缩 -->
           <div class="toggle-button" @click="toggleCollapse">|||</div>
@@ -70,15 +74,18 @@
 </template>
 
 <script>
+import { SETACTIVEPATH } from "../store/mutations-types";
 export default {
   data() {
     return {
       isCollapse: false, //是否折叠
-      activePath: "" //被激活的链接地址
+      // activePath: "" //被激活的链接地址
     };
   },
   created() {
-    this.activePath = window.localStorage.getItem("actionPath");
+    // this.$store.state.activePath = window.localStorage.getItem("actionPath");
+    let activePath = window.localStorage.getItem("actionPath");
+    this.$store.commit(SETACTIVEPATH, activePath);
   },
   methods: {
     logout() {
@@ -92,9 +99,10 @@ export default {
     //保存菜单链接的激活状态
     saveNavState(activePath) {
       window.localStorage.setItem("actionPath", activePath);
-      this.activePath = activePath;
-    }
-  }
+      // this.$store.state.activePath = activePath;
+      this.$store.commit(SETACTIVEPATH, activePath);
+    },
+  },
 };
 </script>
 

@@ -9,6 +9,7 @@ import './assets/css/global.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+//全局定义时间过滤器
 Vue.filter('dateFormat', function (value) {
   const dt = new Date(value)
 

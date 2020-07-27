@@ -1,6 +1,9 @@
-export const INCREMENT = 'increment'
-export const DECREMENT = 'decrement'
-export const INCREMENTCOUNT = 'incrementCount'
-export const ADDSTUDENT = 'addStudent'
-
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+export const INCREMENTCOUNT = 'INCREMENTCOUNT'
+export const ADDSTUDENT = 'ADDSTUDENT'
+export const UPDATEINFO = 'UPDATEINFO'
+export const AUPDATEINFO = 'AUPDATEINFO'
+export const SETNUM = 'SETNUM'
+export const SETACTIVEPATH = 'SETACTIVEPATH'
 

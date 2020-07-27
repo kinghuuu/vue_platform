@@ -33,11 +33,13 @@ import {
   INCREMENT,
   DECREMENT,
   INCREMENTCOUNT,
-  ADDSTUDENT
+  ADDSTUDENT,
+  AUPDATEINFO,
+  SETNUM,
 } from "../store/mutations-types";
 
 export default {
-  name: "News",
+  name: "VuexTest",
   methods: {
     add() {
       this.$store.commit(INCREMENT);
@@ -49,7 +51,7 @@ export default {
       this.$store.commit({
         type: INCREMENTCOUNT,
         count,
-        age: 8
+        age: 8,
       });
     },
     addStudent() {
@@ -57,21 +59,21 @@ export default {
       this.$store.commit(ADDSTUDENT, stu);
     },
     aUpdateInfo() {
-      this.$store.dispatch("aUpdateInfo", {
+      this.$store.dispatch(AUPDATEINFO, {
         message: "我是携带的信息",
         success: () => {
           console.log("加载成功!");
-        }
+        },
       });
     },
     changeValue(e) {
-      this.$store.commit("setNum", e.target.value);
-    }
+      this.$store.commit(SETNUM, e.target.value);
+    },
   },
   computed: {
     ...mapStateData,
-    ...mapGettersData
-  }
+    ...mapGettersData,
+  },
 };
 </script>
 

@@ -2,7 +2,10 @@ import {
     INCREMENT,
     DECREMENT,
     INCREMENTCOUNT,
-    ADDSTUDENT
+    ADDSTUDENT,
+    UPDATEINFO,
+    SETNUM,
+    SETACTIVEPATH
 } from "../store/mutations-types";
 
 export default {
@@ -23,15 +26,17 @@ export default {
     [ADDSTUDENT](state, stu) {
         state.students.push(stu)
     },
-    updateInfo(state) {
+    [UPDATEINFO](state) {
         //不能在这里进行异步操作
         // setTimeout(() => {
         //     state.info.name = 'hujian'
         // }, 1000)
         state.info.name = 'hujian'
     },
-    setNum(state, val) {
+    [SETNUM](state, val) {
         state.num = val
+    },
+    [SETACTIVEPATH](state, value) {
+        state.activePath = value
     }
-
 }
