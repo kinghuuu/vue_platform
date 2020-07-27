@@ -2,17 +2,10 @@
 <p align="left"><img src="https://kinghuuu.github.io/Resource/img/lamp.png" alt="lamp" width="100"/></p>
 
 ## 笔记
-#### Mustache 语法不能作用在 HTML attribute 上，遇到这种情况应该使用 v-bind 指令：
-```
-<div v-bind:id="dynamicId"></div>
-<a v-bind:href="url">...</a>
-```
-
 #### 如果要自动过滤用户输入的首尾空白字符，可以给 v-model 添加 trim 修饰符：
 ```
 <input v-model.trim="msg">
 ```
-
 #### npm装包时-S和-D的区别
 ```
 -D后，安装包会在package中的  devDependencies对象中。简称dev。dev是在开发环境中要用到的。
@@ -22,24 +15,6 @@
 项目插件：例如element ui、echarts这种插件要在运行中使用的，就要放在dep中所以就用  -S
 一般我们项目插件，在api中都可以看到，一般都是-S。因为这些插件是在程序运行中使用的
 ```
-
-#### 计算属性和 methods 对比
-```
-计算属性多次计算时会被vue内部缓存,
-计算属性比 methods 效率高.
-```
-
-#### 懒加载
-```
-把不同路由对应的组件分割成不同的代码块,然后当路由被访问的时候才加载对应的组件,
-这样就更加高效了.
-```
-
-#### keep-alive用于vue-router
-```
-keep-alive 是Vue内置的一个组件,可以使被包含的组件保留状态,或避免重新渲染
-```
-
 #### 模块化和组件化概念的解读
 ```
 模块化：是从代码的角度分析问题；把可复用的代码，抽离为单独的模块； CommonJS
@@ -47,7 +22,6 @@ keep-alive 是Vue内置的一个组件,可以使被包含的组件保留状态,�
 组件化：组件化是从页面UI的角度进行分析问题的；把页面中可复用的UI结构，抽离为单独的组件； elementUI
        好处是方便了 UI 结构的重用；随着项目开发的深入，手中可用的组件会越来越多；
 ```
-
 #### Vuex
 ```
 1.异步操作一般在actions中进行, mutations一般是进行同步操作的,方便Devtools进行跟踪.
@@ -56,22 +30,11 @@ keep-alive 是Vue内置的一个组件,可以使被包含的组件保留状态,�
 4.vuex的store状态的更新唯一方式: 提交mutations
 5.Vuex要求我们Mutations中的方法必须是同步方法(异步操作,devtools不好追踪变化)
 ```
-
-#### Vuex中响应式操作
-```
-添加一个元素:
-Vue.set(state.info,'address','江苏南京')
-
-删除一个元素:
-Vue.delete(state.info,'age')
-```
-
 #### axios发送并发请求
 ```
 axios.all([axios(),axios()]
      .then(res=>{}))
 ```
-
 #### computed和watch比较:
 ```
 计算属性适合用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；
@@ -79,15 +42,68 @@ axios.all([axios(),axios()]
 1.computed能做的，watch都能做，反之则不行.
 2.能用computed的尽量用computed.
 ```
-
 #### 父子组件传值:
 ```
 1.通过 Prop 向子组件传递数据.
 2.子组件可以通过调用内建的 $emit 方法并传入事件名称来触发一个事件,
   可以使用 $emit 的第二个参数传参.
 ```
+### .sync 语法糖
+```
+sync 就是为了实现prop 进行“双向绑定”仅此而已（父对子，子对父，来回传）
+当你有需要在子组件修改父组件值的时候这个方法很好用，它的实现机制和v-model是一样的。
+<child :foo.sync="bar"></child>
+等同于
+<child :bar="foo" @update:bar="e=>foo=e">
+更新方式
+this.$emit('update:bar',newValue)
+```
+#### 项目一些基本优化
+```
+1.vFor和vIf不要一起使用
+    vFor 的优先级其实是比 vIF 高的，所以当两个指令出现来一个DOM中，那么 vFor 渲染的当前列表，
+    每一次都需要进行一次 vIf 的判断。而相应的列表也会重新变化，这个看起来是非常不合理的。
+    因此当你需要进行同步指令的时候。尽量使用计算属性，先将 vIf 不需要的值先过滤掉。
+2.vFor key避免使用index作为标识
+    其实大家都知道 vFor 是不推荐使用 index 下标来作为 key 的值，这是一个非常好理解的知识点，
+    当index作为标识的时候，插入一条数据的时候，列表中它后面的key都发生了变化，
+    那么当前的 vFor 都会对key变化的 Element 重新渲染，但是其实它们除了插入的 Element 数据都没有发生改变，
+    这就导致了没有必要的开销。所以，尽量不要用index作为标识，而去采用数据中的唯一值，如 id 等字段。
+3.释放组件资源
+    什么是资源? 每创建出一个事物都需要消耗资源，资源不是凭空产生的，是分配出来的。
+    所以说，当组件销毁后，尽量把我们开辟出来的资源块给销毁掉，比如 setInterval , addEventListener等，
+    如果你不去手动给释放掉，那么它们依旧会占用一部分资源。这就导致了没有必要的资源浪费。
+    多来几次后，可以想象下资源占用率肯定是上升的。
+    (1).添加的事件:
+       created() {
+       addEventListener('click', Function, false)
+       },
+       beforeDestroy() {
+       removeEventListener('click', Function false)
+       }
+    (2).定时器:
+       created() {
+       this.currentInterVal = setInterval(code,millisec,lang)
+       },
+       beforeDestroy() {
+       clearInterval(this.currentInterVal)
+       }
+4.图片合理的优化方式
+    (1).小图标使用 SVG 或者字体图标
+    (2).通过 base64 和 webp  的方式加载小型图片
+    (3).能通过cdn加速的大图尽量用cdn
+    (4).大部分框架都带有懒加载的图片，不要嫌麻烦，多花点时间使用它
+5.路由器按需加载
+    路由懒加载的方式有两种，一种是require 另一种是 import 。
+    当路由按需加载后，那么Vue服务在第一次加载时的压力就能够相应的小一些，不会出现超长白屏P0问题。
+    // require法
+    component: resolve=>(require(['@/components/HelloWorld'],resolve))
+
+    // import
+    component: () => import('@/components/HelloWorld')
+6.
 
 
 
 
-
+```
