@@ -2,13 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './routers'
 import store from './store'
-import ElementUI from 'element-ui';
+import element from './element';
 import echarts from 'echarts'
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/global.css'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(element);
 Vue.prototype.$echarts = echarts     //全局定义 echarts
 
 //全局定义时间过滤器

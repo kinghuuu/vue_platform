@@ -101,9 +101,224 @@ this.$emit('update:bar',newValue)
 
     // import
     component: () => import('@/components/HelloWorld')
-6.
-
-
-
-
 ```
+#### 路由懒加载配置
+```
+Vue 项目中实现路由按需加载（路由懒加载）的 3 中方式：
+1、Vue异步组件技术：
+{
+  path: '/home',
+  name: 'Home',
+  component: resolve => reqire(['../views/Home.vue'], resolve)
+}
+
+2、es6提案的import()
+{
+  path: '/',
+  name: 'home',
+  component: () => import('../views/Home.vue')
+}
+
+3、webpack提供的require.ensure()
+{
+  path: '/home',
+  name: 'Home',
+  component: r => require.ensure([],() =>  r(require('../views/Home.vue')), 'home')
+}
+```
+#### 改变单页面应用的 title
+```
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+})
+```
+#### 登录权限校验
+```
+1、配置路由的 meta 对象的 auth 属性
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('../views/Home.vue'),
+    meta: { title: '首页', keepAlive: false, auth: false },
+  },
+  {
+    path: '/mine',
+    name: 'mine',
+    component: () => import('../views/mine.vue'),
+    meta: { title: '我的', keepAlive: false, auth: true },
+  },
+]
+2、在路由首页进行判断。当to.meta.auth为true(需要登录)，且不存在登录信息缓存时，需要重定向去登录页面
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  const userInfo = sessionStorage.getItem('userInfo') || null
+  if (!userInfo && to.meta.auth) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+```
+#### 页面缓存配置
+```
+1、通过配置路由的 meta 对象的 keepAlive 属性值来区分页面是否需要缓存
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('../views/Home.vue'),
+    meta: { title: '首页', keepAlive: false, auth: false },
+  },
+  {
+    path: '/list',
+    name: 'list',
+    component: () => import('../views/list.vue'),
+    meta: { title: '列表页', keepAlive: true, auth: false },
+  },
+]
+2、在 app.vue 做缓存判断
+<div id="app">
+  <router-view v-if="!$route.meta.keepAlive"></router-view>
+  <keep-alive>
+    <router-view v-if="$route.meta.keepAlive"></router-view>
+  </keep-alive>
+</div>
+```
+#### vue.config.js 配置
+```
+vue-cli3 开始，新建的脚手架都需要我们在 vue.config.js 配置我们项目的东西。主要包括
+1.打包后文件输出位置
+2.关闭生产环境 sourcemap
+3.配置 rem 转化 px
+4.配置 alias 别名
+5.去除生产环境 console
+6.跨域代理设置
+
+module.exports = {
+  publicPath: './',             // 默认为'/'
+  outputDir: 'dist/static',     // 将构建好的文件输出到哪里，本司要求
+  assetsDir: 'static',          // 放置生成的静态资源(js、css、img、fonts)的目录。
+  indexPath: 'index.html',      // 指定生成的 index.html 的输出路径
+  runtimeCompiler: false,       // 是否使用包含运行时编译器的 Vue 构建版本。
+  transpileDependencies: [],
+  productionSourceMap: false,   // 如果你不需要生产环境的 source map
+
+  // 配置css
+  css: {
+    // 是否使用css分离插件 ExtractTextPlugin
+    extract: true,
+    sourceMap: true,
+    // css预设器配置项
+    loaderOptions: {
+      postcss: {
+        plugins: [
+          require('postcss-px2rem')({
+            remUnit: 100,
+          }),
+        ],
+      },
+    },
+    // 启用 CSS modules for all css / pre-processor files.
+    modules: false,
+  },
+
+  // 是一个函数，允许对内部的 webpack 配置进行更细粒度的修改。
+  chainWebpack: (config) => {
+    // 配置别名
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('assets', resolve('src/assets'))
+      .set('components', resolve('src/components'))
+      .set('views', resolve('src/views'))
+
+    config.optimization.minimizer('terser').tap((args) => {
+      // 去除生产环境console
+      args[0].terserOptions.compress.drop_console = true
+      return args
+    })
+  },
+
+  // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建。
+  parallel: require('os').cpus().length > 1,
+
+  devServer: {
+    host: '0.0.0.0',
+    port: 8088, // 端口号
+    https: false, // https:{type:Boolean}
+    open: false, // 配置自动启动浏览器  open: 'Google Chrome'-默认启动谷歌
+
+    // 配置多个代理
+    proxy: {
+      '/api': {
+        target: 'https://www.mock.com',
+        ws: true, // 代理的WebSockets
+        changeOrigin: true, // 允许websockets跨域
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
+  },
+}
+```
+#### CDN 资源优化
+```
+CDN 的全称是 Content Delivery Network，即内容分发网络。CDN 是构建在网络之上的内容分发网络，
+依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，
+降低网络拥塞，提高用户访问响应速度和命中率。CDN 的关键技术主要有内容存储和分发技术。
+
+随着项目越做越大，依赖的第三方 npm 包越来越多，构建之后的文件也会越来越大。
+再加上又是单页应用，这就会导致在网速较慢或者服务器带宽有限的情况出现长时间的白屏。
+此时我们可以使用 CDN 的方法，优化网络加载速度。
+
+1、将 vue、vue-router、vuex、axios 这些 vue 全家桶的资源，全部改为通过 CDN 链接获取，在 index.html 里插入 相应链接。
+<body>
+  <div id="app"></div>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+  <script src="https://cdn.bootcss.com/vuex/3.1.0/vuex.min.js"></script>
+  <script src="https://cdn.bootcss.com/vue-router/3.0.2/vue-router.min.js"></script>
+  <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>
+</body>
+
+2、在 vue.config.js 配置 externals 属性
+module.exports = {
+ ···
+    externals: {
+      'vue': 'Vue',
+      'vuex': 'Vuex',
+      'vue-router': 'VueRouter',
+      'axios':'axios'
+    }
+  }
+
+3、卸载相关依赖的 npm 包
+npm uninstall  vue vue-router vuex axios
+```
+#### gZip 加速优化
+```
+所有现代浏览器都支持 gzip 压缩，启用 gzip 压缩可大幅缩减传输资源大小，
+从而缩短资源下载时间，减少首次白屏时间，提升用户体验。
+
+gzip 对基于文本格式文件的压缩效果最好（如：CSS、JavaScript 和 HTML），
+在压缩较大文件时往往可实现高达 70-90% 的压缩率，对已经压缩过的资源（如：图片）进行 gzip 压缩处理，效果很不好。
+
+const CompressionPlugin = require('compression-webpack-plugin')
+configureWebpack: (config) => {
+  if (process.env.NODE_ENV === 'production') {
+    config.plugins.push(
+      new CompressionPlugin({
+        // gzip压缩配置
+        test: /\.js$|\.html$|\.css/, // 匹配文件名
+        threshold: 10240, // 对超过10kb的数据进行压缩
+        deleteOriginalAssets: false, // 是否删除原文件
+      })
+    )
+  }
+}
+```
+
+
+
+
