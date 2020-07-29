@@ -1,7 +1,7 @@
 <template>
   <div>
     <input @keydown.enter="send" v-model="inputContent" type="text" />
-    <button @click="send">发送</button>
+    <el-button @click="send">发送</el-button>
   </div>
 </template>
 <script>

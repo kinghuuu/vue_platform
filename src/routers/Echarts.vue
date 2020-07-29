@@ -24,7 +24,7 @@ export default {
   methods: {
     getRenderer() {
       // console.log(this.$echarts);
-      console.log(this.$refs.main);
+      // console.log(this.$refs.main);
       let myChart = this.$echarts.init(this.$refs.main);
       let option = {
         title: {
